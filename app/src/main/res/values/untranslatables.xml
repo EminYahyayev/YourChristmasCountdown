@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">YourChristmasCountdown</string>
+
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-9048716910255369/6965074901</string>
+    <string name="countdown_ad_banner_size">LARGE_BANNER</string>
+
+    <string name="font_name" translatable="false">patua_one_regular.otf</string>
+
+    <string name="url_website" translatable="false">
+        http://www.yourchristmascountdown.com?source=android</string>
+    <string name="url_twitter" translatable="false">
+        https://twitter.com/christmas_clock</string>
+    <string name="url_facebook" translatable="false">
+        https://facebook.com/</string>
+    <string name="url_play_market" translatable="false">
+        https://play.google.com/store/apps/details?id=uk.co.friendlycode.yourchristmascountdown</string>
+
+</resources>

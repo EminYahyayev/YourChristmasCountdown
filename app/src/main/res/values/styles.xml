@@ -1,0 +1,55 @@
+<resources>
+
+    <style name="CountdownFragment">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:alignmentMode">alignMargins</item>
+        <item name="android:columnOrderPreserved">false</item>
+        <item name="columnCount">2</item>
+    </style>
+
+    <style name="CountdownTitleView">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display3</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/countdown_title</item>
+    </style>
+
+    <style name="CountdownTimerView">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="layout_gravity">center_horizontal</item>
+        <item name="layout_columnWeight">1</item>
+        <item name="android:clipToPadding">true</item>
+        <item name="android:layout_margin">0dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="CountdownTimerView.Number">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display3</item>
+        <item name="android:textColor">@color/material_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">-18sp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CountdownTimerView.Caption">
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
+        <item name="android:textColor">@color/countdown_timer_caption</item>
+    </style>
+
+    <style name="AboutButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/about_white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/content_padding_normal</item>
+        <item name="android:textColor">@color/body_text_1</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+    </style>
+
+</resources>

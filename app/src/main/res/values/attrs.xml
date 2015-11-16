@@ -1,0 +1,11 @@
+<resources>
+
+    <declare-styleable name="ChristmasTextView">
+        <attr name="fontName" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="PanningView">
+        <attr name="panningDurationInMs" format="integer" />
+    </declare-styleable>
+
+</resources>

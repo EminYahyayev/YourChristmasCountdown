@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="transparent">#00000000</color>
+    <color name="window_background">#e9eaed</color>
+    <color name="gray_background">#e4e4e4</color>
+
+    <color name="body_text_1">#de000000</color>
+    <color name="body_text_2">#8a000000</color>
+    <color name="body_text_3">#60000000</color>
+    <color name="body_text_white">#FFFFFFFF</color>
+    <color name="body_text_disabled">#44000000</color>
+
+    <color name="body_text_1_inverse">#deffffff</color>
+    <color name="body_text_2_inverse">#8affffff</color>
+
+    <color name="primary">@color/material_blue600</color>
+    <color name="primary_dark">@color/material_red700</color>
+    <color name="primary_light">@color/material_blue100</color>
+    <color name="accent">@color/red_theme</color>
+
+    <color name="countdown_background">@color/material_blue800</color>
+    <color name="countdown_title">@color/material_blue400</color>
+    <color name="countdown_timer_caption">@color/material_yellow600</color>
+    <color name="holiday_title">@color/material_yellow600</color>
+
+    <color name="red_theme">#BBF00000</color>
+
+    <color name="about_white">#B0FFFFFF</color>
+</resources>

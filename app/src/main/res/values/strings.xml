@@ -1,0 +1,52 @@
+<resources>
+
+    <!-- Titles -->
+    <string name="title_settings">Info &amp; Settings</string>
+    <string name="title_about">About Us</string>
+    <string name="title_dialog_personalise">Personalise Countdown</string>
+
+    <!-- Buttons -->
+    <string name="button_cancel">Cancel</string>
+    <string name="button_clear">Clear</string>
+    <string name="button_ok">OK</string>
+
+    <!-- Countdown screens-->
+    <string name="countdown_title">Your</string>
+    <string name="countdown_subtitle">Christmas Countdown</string>
+    <string name="countdown_days">Days</string>
+    <string name="countdown_hours">Hours</string>
+    <string name="countdown_minutes">Mins</string>
+    <string name="countdown_seconds">Secs</string>
+    <string name="countdown_sleeps">Sleeps</string>
+    <string name="countdown_weeks">Weeks</string>
+    <string name="countdown_months">Months</string>
+
+    <!-- Personalise -->
+    <string name="personalise_hint">Please enter your name</string>
+    <string name="personalise_name">%1$s\'s</string>
+
+    <!-- Settings & Info -->
+    <string name="info_countdown">
+        Tap the countdown clock to change from counting in days to weeks or months.
+    </string>
+    <string name="info_music">
+        Use the settings below to switch off music and sounds (although be sure to switch them back on when it\'s almost Christmas!)
+    </string>
+    <string name="info_headline">About Your Christmas Countdown</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_music">Music</string>
+    <string name="settings_sfx">Sound FX</string>
+
+    <!-- About -->
+    <string name="about_us">
+        We love counting down to Christmas and very active on social networks.
+        Please do visit our website or following\like us using the links below and show your support
+        for us by reviewing this app in the App Store.
+    </string>
+    <string name="about_visit_website">Visit our website</string>
+    <string name="about_twitter">Follow us on Twitter</string>
+    <string name="about_facebook">Like us on Facebook</string>
+    <string name="about_play_market">Review app in App Store</string>
+    <string name="holiday_title">Merry Christmas Everyone</string>
+
+</resources>

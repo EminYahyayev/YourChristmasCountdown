@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <uk.co.friendlycode.yourchristmascountdown.ui.widget.PanningView
+            android:id="@+id/background_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null"
+            android:src="@drawable/countdown_background"
+            app:panningDurationInMs="@integer/background_animation_duration_ms"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+                android:id="@+id/countdown_title"
+                style="@style/CountdownTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-8dp"
+                android:layout_marginLeft="@dimen/content_padding_normal"
+                android:layout_marginRight="@dimen/content_padding_normal"
+                android:layout_marginTop="@dimen/content_padding_normal"
+                android:text="@string/countdown_title"
+                app:fontName="@string/font_name"/>
+
+            <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/content_padding_normal"
+                android:layout_marginRight="@dimen/content_padding_normal"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/countdown_subtitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/material_white"
+                android:textStyle="bold"
+                app:fontName="@string/font_name"/>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:clickable="true"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/personalise_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="120dp"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="@dimen/element_spacing_normal"
+                    android:adjustViewBounds="true"
+                    android:background="@color/transparent"
+                    android:contentDescription="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/button_personalise"/>
+
+                <include layout="@layout/partial_side_buttons"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:adSize="@string/countdown_ad_banner_size"
+        app:adUnitId="@string/banner_ad_unit_id"/>
+
+</LinearLayout>

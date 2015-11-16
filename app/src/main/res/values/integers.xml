@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="background_animation_duration_ms">10000</integer>
+
+</resources>

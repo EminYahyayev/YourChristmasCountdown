@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="ga_trackingId">UA-10724199-6</string>
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.activity.CountdownActivity">
+        Countdown Screen
+    </screenName>
+
+    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.activity.SettingsActivity">
+        Settings Screen
+    </screenName>
+
+    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.activity.AboutActivity">
+        About Screen
+    </screenName>
+
+</resources>

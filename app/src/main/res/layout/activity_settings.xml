@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/transparent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/keyline_1">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_countdown"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/body_text_white"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/content_padding_normal"
+                    android:text="@string/info_music"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/body_text_white"/>
+
+                <Button
+                    android:id="@+id/button_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/content_padding_normal"
+                    android:background="@color/about_white"
+                    android:gravity="start"
+                    android:padding="@dimen/content_padding_normal"
+                    android:text="@string/info_headline"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/body_text_1"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/content_padding_normal"
+                    android:background="@color/about_white"
+                    android:padding="@dimen/content_padding_normal">
+
+                    <TextView
+                        android:id="@+id/settings_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_title"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/body_text_1"/>
+
+                    <Switch
+                        android:id="@+id/music_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settings_title"
+                        android:layout_marginTop="@dimen/element_spacing_normal"
+                        android:checked="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/music_switch"
+                        android:layout_alignTop="@id/music_switch"
+                        android:layout_marginLeft="@dimen/element_spacing_normal"
+                        android:layout_marginStart="@dimen/element_spacing_normal"
+                        android:layout_toEndOf="@id/music_switch"
+                        android:layout_toRightOf="@id/music_switch"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_music"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/body_text_1"/>
+
+                    <Switch
+                        android:id="@+id/sfx_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/music_switch"
+                        android:layout_marginTop="@dimen/element_spacing_normal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/sfx_switch"
+                        android:layout_alignTop="@id/sfx_switch"
+                        android:layout_marginLeft="@dimen/element_spacing_normal"
+                        android:layout_marginStart="@dimen/element_spacing_normal"
+                        android:layout_toEndOf="@id/music_switch"
+                        android:layout_toRightOf="@id/music_switch"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_sfx"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/body_text_1"/>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

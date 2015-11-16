@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/transparent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/content_padding_normal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_us"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/body_text_white"/>
+
+                <Button
+                    android:id="@+id/about_visit_website"
+                    style="@style/AboutButton"
+                    android:layout_marginTop="@dimen/content_padding_large"
+                    android:text="@string/about_visit_website"/>
+
+                <Button
+                    android:id="@+id/about_twitter"
+                    style="@style/AboutButton"
+                    android:layout_marginTop="@dimen/element_spacing_normal"
+                    android:text="@string/about_twitter"/>
+
+                <Button
+                    android:id="@+id/about_facebook"
+                    style="@style/AboutButton"
+                    android:layout_marginTop="@dimen/element_spacing_normal"
+                    android:text="@string/about_facebook"/>
+
+                <Button
+                    android:id="@+id/about_play_market"
+                    style="@style/AboutButton"
+                    android:layout_marginTop="@dimen/element_spacing_normal"
+                    android:text="@string/about_play_market"/>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

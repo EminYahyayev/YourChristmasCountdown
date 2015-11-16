@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="placeholder_countdown_weeks" translatable="false">7</string>
+    <string name="placeholder_countdown_days" translatable="false">6</string>
+    <string name="placeholder_countdown_hours" translatable="false">23</string>
+    <string name="placeholder_countdown_hours_overall" translatable="false">1343</string>
+    <string name="placeholder_countdown_minutes" translatable="false">51</string>
+    <string name="placeholder_countdown_seconds" translatable="false">54</string>
+    <string name="placeholder_countdown_sleeps" translatable="false">56</string>
+
+</resources>
