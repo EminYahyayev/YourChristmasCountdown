@@ -13,8 +13,4 @@
         <item name="android:windowBackground">@null</item>
     </style>
 
-    <style name="Theme.Christmas.Fullscreen"/>
-
-    <style name="Theme.Christmas.Countdown"/>
-
 </resources>

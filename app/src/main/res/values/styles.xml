@@ -9,13 +9,6 @@
         <item name="columnCount">2</item>
     </style>
 
-    <style name="CountdownTitleView">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display3</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/countdown_title</item>
-    </style>
-
     <style name="CountdownTimerView">
         <item name="android:textAllCaps">true</item>
         <item name="android:gravity">center_horizontal</item>

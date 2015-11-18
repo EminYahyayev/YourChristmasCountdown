@@ -20,7 +20,7 @@ public final class SplashActivity extends BaseActivity {
         mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             @Override public void run() {
-                startActivity(new Intent(SplashActivity.this, CountdownActivity.class));
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }
         }, SPLASH_DELAY_MILLIS);
     }

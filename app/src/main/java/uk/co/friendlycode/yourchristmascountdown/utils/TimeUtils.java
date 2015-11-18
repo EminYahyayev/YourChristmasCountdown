@@ -1,39 +1,61 @@
 package uk.co.friendlycode.yourchristmascountdown.utils;
 
 
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
+
+import timber.log.Timber;
 
 import static org.joda.time.DateTimeConstants.DECEMBER;
 
 public final class TimeUtils {
 
+    @IntDef({STATE_EMPTY,
+            STATE_COUNTDOWN,
+            STATE_FINAL_COUNTDOWN,
+            STATE_HOLIDAY})
+    public @interface State {}
+
+    public static final int STATE_EMPTY = -11;
+    public static final int STATE_COUNTDOWN = 1;
+    public static final int STATE_FINAL_COUNTDOWN = 2;
+    public static final int STATE_HOLIDAY = 3;
+
     public static final DateTime CHRISTMAS_DATE;
+    public static final DateTime POST_CHRISTMAS_DATE;
 
     static {
-        final DateTime now = DateTime.now();
-        final int christmasYear = (now.getDayOfMonth() >= 25 && now.getMonthOfYear() == DECEMBER)
-                ? now.getYear() + 1
-                : now.getYear();
+        CHRISTMAS_DATE = getChristmasDate();
+        POST_CHRISTMAS_DATE = CHRISTMAS_DATE.plusDays(1);
+    }
 
-        CHRISTMAS_DATE = new DateTime(christmasYear, DECEMBER, 25, 0, 0, 0);
+    @State
+    public static int getState(@NonNull final DateTime date) {
+        final Duration duration = new Duration(date, POST_CHRISTMAS_DATE);
+        final long secondsLeft = duration.getStandardSeconds();
+        Timber.d("getCurrentState: secondsLEft=%d", secondsLeft);
+
+        if (secondsLeft > 60 + DateTimeConstants.SECONDS_PER_DAY) {
+            return STATE_COUNTDOWN;
+        } else if (secondsLeft > 0) {
+            return STATE_FINAL_COUNTDOWN;
+        } else
+            return STATE_HOLIDAY;
     }
 
     public static TimeModel modelFromNow() {
-        return modelFromDate(DateTime.now());
+        return getTimeModel(DateTime.now());
     }
 
-    public static TimeModel modelFromDate(@NonNull final DateTime date) {
+    public static TimeModel getTimeModel(@NonNull final DateTime date) {
         final Period period = new Period(date, CHRISTMAS_DATE);
         final Duration duration = new Duration(date, CHRISTMAS_DATE);
-
-        //Timber.w("Period");
-        //Timber.w("hours=%d, minutes=%d, secs=%d", period.getHours(), period.getMinutes(), period.getSeconds());
-        //Timber.w("days=%d, weeks=%d, months=%d", period.getDays(), period.getWeeks(), period.getMonths());
 
         final int secondsLeft = period.getSeconds();
         final int minutesLeft = period.getMinutes();
@@ -57,112 +79,13 @@ public final class TimeUtils {
                 .setWeeksOfYearLeft(weeksOfYearLeft);
     }
 
-    public static final class TimeModel {
-        private int sleepsLeft;
-        private int secondsLeft;
-        private int minutesLeft;
-        private int hoursLeft;
-        private int daysLeft;
-        private int weeksLeft;
-        private int monthsLeft;
-        private long hoursOfYearLeft;
-        private long daysOfYearLeft;
-        private int weeksOfYearLeft;
+    private static DateTime getChristmasDate() {
+        final DateTime now = DateTime.now();
+        final int christmasYear = (now.getDayOfMonth() >= 25 && now.getMonthOfYear() == DECEMBER)
+                ? now.getYear() + 1
+                : now.getYear();
 
-        public int getSecondsLeft() {
-            return secondsLeft;
-        }
-
-        public TimeModel setSecondsLeft(int secondsLeft) {
-            this.secondsLeft = secondsLeft;
-            return this;
-        }
-
-        public int getMinutesLeft() {
-            return minutesLeft;
-        }
-
-        public TimeModel setMinutesLeft(int minutesLeft) {
-            this.minutesLeft = minutesLeft;
-            return this;
-        }
-
-        public int getHoursLeft() {
-            return hoursLeft;
-        }
-
-        public TimeModel setHoursLeft(int hoursLeft) {
-            this.hoursLeft = hoursLeft;
-            return this;
-        }
-
-        public int getDaysLeft() {
-            return daysLeft;
-        }
-
-        public TimeModel setDaysLeft(int daysLeft) {
-            this.daysLeft = daysLeft;
-            return this;
-        }
-
-        public int getWeeksLeft() {
-            return weeksLeft;
-        }
-
-        public TimeModel setWeeksLeft(int weeksLeft) {
-            this.weeksLeft = weeksLeft;
-            return this;
-        }
-
-        public int getMonthsLeft() {
-            return monthsLeft;
-        }
-
-        public TimeModel setMonthsLeft(int monthsLeft) {
-            this.monthsLeft = monthsLeft;
-            return this;
-        }
-
-        public long getHoursOfYearLeft() {
-            return hoursOfYearLeft;
-        }
-
-        public TimeModel setHoursOfYearLeft(long hoursOfYearLeft) {
-            this.hoursOfYearLeft = hoursOfYearLeft;
-            return this;
-        }
-
-        public long getDaysOfYearLeft() {
-            return daysOfYearLeft;
-        }
-
-        public TimeModel setDaysOfYearLeft(long daysOfYearLeft) {
-            this.daysOfYearLeft = daysOfYearLeft;
-            return this;
-        }
-
-        public int getWeeksOfYearLeft() {
-            return weeksOfYearLeft;
-        }
-
-        public TimeModel setWeeksOfYearLeft(int weeksOfYearLeft) {
-            this.weeksOfYearLeft = weeksOfYearLeft;
-            return this;
-        }
-
-        @Override public String toString() {
-            return "TimeModel{" +
-                    "secondsLeft=" + secondsLeft +
-                    ", minutesLeft=" + minutesLeft +
-                    ", hoursLeft=" + hoursLeft +
-                    ", daysLeft=" + daysLeft +
-                    ", weeksLeft=" + weeksLeft +
-                    ", monthsLeft=" + monthsLeft +
-                    ", hoursOfYearLeft=" + hoursOfYearLeft +
-                    ", daysOfYearLeft=" + daysOfYearLeft +
-                    ", weeksOfYearLeft=" + weeksOfYearLeft +
-                    '}';
-        }
+        return new DateTime(christmasYear, DECEMBER, 25, 0, 0, 0);
     }
 
     private TimeUtils() {

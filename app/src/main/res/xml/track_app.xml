@@ -8,11 +8,11 @@
         Countdown Screen
     </screenName>
 
-    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.activity.SettingsActivity">
+    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.fragment.SettingsFragment">
         Settings Screen
     </screenName>
 
-    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.activity.AboutActivity">
+    <screenName name="uk.co.friendlycode.yourchristmascountdown.ui.fragment.AboutFragment">
         About Screen
     </screenName>
 

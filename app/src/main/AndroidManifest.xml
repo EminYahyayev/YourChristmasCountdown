@@ -14,51 +14,27 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Christmas.Base"
+        android:theme="@style/Theme.Christmas"
         tools:ignore="AllowBackup">
 
         <activity
             android:name=".ui.activity.SplashActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Christmas.Fullscreen"/>
+            android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui.activity.CountdownActivity"
+            android:name=".ui.activity.MainActivity"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Christmas.Countdown">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.activity.HolidayActivity"
-            android:launchMode="singleInstance"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".ui.activity.SettingsActivity"
-            android:label="@string/title_settings"
-            android:parentActivityName=".ui.activity.CountdownActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".ui.activity.AboutActivity"
-            android:label="@string/title_about"
-            android:parentActivityName=".ui.activity.SettingsActivity"
-            android:screenOrientation="portrait"/>
-
         <service
             android:name=".service.MusicService"
-            android:exported="false"/>
-
-        <service
-            android:name=".service.MusicIntentService"
             android:exported="false"/>
 
         <meta-data

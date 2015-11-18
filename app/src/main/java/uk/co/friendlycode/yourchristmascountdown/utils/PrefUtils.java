@@ -1,4 +1,4 @@
-package uk.co.friendlycode.yourchristmascountdown.ui;
+package uk.co.friendlycode.yourchristmascountdown.utils;
 
 
 import android.content.Context;
@@ -36,7 +36,7 @@ public final class PrefUtils {
         sp.edit().putBoolean(PREF_MUSIC_ENABLED, enabled).apply();
     }
 
-    public static boolean isSexEnabled(final Context context) {
+    public static boolean isSfxEnabled(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getBoolean(PREF_SFX_ENABLED, true);
     }
