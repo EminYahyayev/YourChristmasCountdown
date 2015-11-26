@@ -113,9 +113,7 @@ public final class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onShareClick() {
-        replacePrimaryFragment(new HolidayFragment());
-    }
+    public void onShareClick() {}
 
     @Override
     public void onSettingsClick() {
