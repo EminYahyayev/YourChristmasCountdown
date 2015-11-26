@@ -7,11 +7,12 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import timber.log.Timber;
 import uk.co.friendlycode.yourchristmascountdown.R;
 
 public class PanningView extends ImageView {
 
-    private PanningViewHelper mAttacher;
+    private PanningViewHelper mHelper;
 
     private int mPanningDurationInMs;
 
@@ -27,18 +28,33 @@ public class PanningView extends ImageView {
         super(context, attr, defStyle);
         readStyleParameters(context, attr);
         super.setScaleType(ScaleType.MATRIX);
-        if (!isInEditMode()) {
-            mAttacher = new PanningViewHelper(this, mPanningDurationInMs);
-        }
     }
 
     private void readStyleParameters(Context context, AttributeSet attributeSet) {
         TypedArray a = context.obtainStyledAttributes(attributeSet, R.styleable.PanningView);
         try {
-            mPanningDurationInMs = a.getInt(R.styleable.PanningView_panningDurationInMs, PanningViewHelper.DEFAULT_PANNING_DURATION_IN_MS);
+            mPanningDurationInMs = a.getInt(
+                    R.styleable.PanningView_panningDurationInMs,
+                    PanningViewHelper.DEFAULT_PANNING_DURATION_IN_MS);
         } finally {
             a.recycle();
         }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Timber.w("onAttachedToWindow");
+        if (!isInEditMode()) {
+            mHelper = new PanningViewHelper(this, mPanningDurationInMs);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        Timber.w("onDetachedFromWindow");
+        mHelper.cleanup();
+        super.onDetachedFromWindow();
     }
 
     @Override
@@ -61,12 +77,12 @@ public class PanningView extends ImageView {
     }
 
     private void stopUpdateStartIfNecessary() {
-        if (null != mAttacher) {
-            boolean wasPanning = mAttacher.isPanning();
-            mAttacher.stopPanning();
-            mAttacher.update();
+        if (null != mHelper) {
+            boolean wasPanning = mHelper.isPanning();
+            mHelper.stopPanning();
+            mHelper.update();
             if (wasPanning) {
-                mAttacher.startPanning();
+                mHelper.startPanning();
             }
         }
     }
@@ -80,17 +96,11 @@ public class PanningView extends ImageView {
         }
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        mAttacher.cleanup();
-        super.onDetachedFromWindow();
-    }
-
     public void startPanning() {
-        mAttacher.startPanning();
+        mHelper.startPanning();
     }
 
     public void stopPanning() {
-        mAttacher.stopPanning();
+        mHelper.stopPanning();
     }
 }

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,10 +27,10 @@ public final class AboutFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         mToolbar.setTitle(R.string.title_about);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override public boolean onMenuItemClick(MenuItem item) {
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
-                return true;
             }
         });
     }

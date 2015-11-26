@@ -6,7 +6,6 @@ import android.content.Context;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
-import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import net.danlew.android.joda.JodaTimeAndroid;
@@ -30,7 +29,7 @@ public final class ChristmasApplication extends Application {
         configureTimber();
 
         mRefWatcher = BuildConfig.DEBUG
-                ? LeakCanary.install(this)
+                ? RefWatcher.DISABLED //? LeakCanary.install(this)
                 : RefWatcher.DISABLED;
     }
 

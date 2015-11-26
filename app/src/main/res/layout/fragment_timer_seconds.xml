@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout
+    style="@style/CountdownFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/material_blue800">
+
+    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_seconds_of_year"
+        style="@style/CountdownTimerView.Number"
+        android:ellipsize="start"
+        android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        app:fontName="@string/font_name"
+        app:layout_columnSpan="2"
+        tools:text="@string/placeholder_countdown_sleeps"/>
+
+    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        style="@style/CountdownTimerView.Caption"
+        android:text="@string/countdown_seconds_full"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        app:fontName="@string/font_name"
+        app:layout_columnSpan="2"/>
+
+</android.support.v7.widget.GridLayout>

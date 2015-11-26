@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -48,10 +47,10 @@ public final class SettingsFragment extends BaseFragment
         super.onViewCreated(view, savedInstanceState);
 
         mToolbar.setTitle(R.string.title_settings);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override public boolean onMenuItemClick(MenuItem item) {
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
-                return true;
             }
         });
 
@@ -77,6 +76,14 @@ public final class SettingsFragment extends BaseFragment
         } else {
             throw new UnsupportedOperationException("No operation for this button.");
         }
+    }
+
+    @OnClick(R.id.music_switch_container) void onMusicClick() {
+        mMusicSwitch.setChecked(!mMusicSwitch.isChecked());
+    }
+
+    @OnClick(R.id.sfx_switch_container) void onSfxClick() {
+        mSfxSwitch.setChecked(!mSfxSwitch.isChecked());
     }
 
     @OnClick(R.id.button_about) void onAboutClick() {

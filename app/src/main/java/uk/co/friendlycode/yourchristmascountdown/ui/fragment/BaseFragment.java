@@ -10,6 +10,7 @@ import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
 import uk.co.friendlycode.yourchristmascountdown.ChristmasApplication;
+import uk.co.friendlycode.yourchristmascountdown.utils.BusProvider;
 
 /**
  * Base class for all fragments.
@@ -24,6 +25,18 @@ abstract class BaseFragment extends Fragment {
     @Override public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
     }
 
     @CallSuper

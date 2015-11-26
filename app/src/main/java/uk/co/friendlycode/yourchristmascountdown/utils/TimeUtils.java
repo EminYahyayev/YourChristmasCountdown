@@ -22,13 +22,13 @@ public final class TimeUtils {
             STATE_HOLIDAY})
     public @interface State {}
 
-    public static final int STATE_EMPTY = -11;
+    public static final int STATE_EMPTY = -1;
     public static final int STATE_COUNTDOWN = 1;
     public static final int STATE_FINAL_COUNTDOWN = 2;
     public static final int STATE_HOLIDAY = 3;
 
-    public static final DateTime CHRISTMAS_DATE;
-    public static final DateTime POST_CHRISTMAS_DATE;
+    private static final DateTime CHRISTMAS_DATE;
+    private static final DateTime POST_CHRISTMAS_DATE;
 
     static {
         CHRISTMAS_DATE = getChristmasDate();
@@ -39,7 +39,7 @@ public final class TimeUtils {
     public static int getState(@NonNull final DateTime date) {
         final Duration duration = new Duration(date, POST_CHRISTMAS_DATE);
         final long secondsLeft = duration.getStandardSeconds();
-        Timber.d("getCurrentState: secondsLEft=%d", secondsLeft);
+        Timber.d("getCurrentState: secondsLeft=%d", secondsLeft);
 
         if (secondsLeft > 60 + DateTimeConstants.SECONDS_PER_DAY) {
             return STATE_COUNTDOWN;
@@ -54,8 +54,9 @@ public final class TimeUtils {
     }
 
     public static TimeModel getTimeModel(@NonNull final DateTime date) {
-        final Period period = new Period(date, CHRISTMAS_DATE);
-        final Duration duration = new Duration(date, CHRISTMAS_DATE);
+        final DateTime christmas = getChristmasDate(date);
+        final Period period = new Period(date, christmas);
+        final Duration duration = new Duration(date, christmas);
 
         final int secondsLeft = period.getSeconds();
         final int minutesLeft = period.getMinutes();
@@ -65,7 +66,7 @@ public final class TimeUtils {
         final int monthsLeft = period.getMonths();
         final long hoursOfYearLeft = duration.getStandardHours();
         final long daysOfYearLeft = duration.getStandardDays();
-        final int weeksOfYearLeft = Weeks.weeksBetween(date, CHRISTMAS_DATE).getWeeks();
+        final int weeksOfYearLeft = Weeks.weeksBetween(date, christmas).getWeeks();
 
         return new TimeModel()
                 .setSecondsLeft(secondsLeft)
@@ -79,11 +80,14 @@ public final class TimeUtils {
                 .setWeeksOfYearLeft(weeksOfYearLeft);
     }
 
-    private static DateTime getChristmasDate() {
-        final DateTime now = DateTime.now();
-        final int christmasYear = (now.getDayOfMonth() >= 25 && now.getMonthOfYear() == DECEMBER)
-                ? now.getYear() + 1
-                : now.getYear();
+    public static DateTime getChristmasDate() {
+        return getChristmasDate(DateTime.now());
+    }
+
+    public static DateTime getChristmasDate(DateTime dateTime) {
+        final int christmasYear = (dateTime.getDayOfMonth() > 25 && dateTime.getMonthOfYear() == DECEMBER)
+                ? dateTime.getYear() + 1
+                : dateTime.getYear();
 
         return new DateTime(christmasYear, DECEMBER, 25, 0, 0, 0);
     }

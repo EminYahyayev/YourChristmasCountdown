@@ -9,19 +9,22 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import butterknife.Bind;
-import timber.log.Timber;
 import uk.co.friendlycode.yourchristmascountdown.R;
+import uk.co.friendlycode.yourchristmascountdown.ui.event.TimeEvent;
 import uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView;
-import uk.co.friendlycode.yourchristmascountdown.utils.TimeModel;
-import uk.co.friendlycode.yourchristmascountdown.utils.TimeUtils;
+
+import static org.joda.time.Weeks.weeksBetween;
 
 public final class TimerFragment extends BaseFragment {
     private static final String ARG_POSITION = "arg_position";
 
     private static final int[] LAYOUTS = {
-            R.layout.fragment_timer_sleeps,
+            R.layout.fragment_timer_seconds,
             R.layout.fragment_timer_hours,
+            R.layout.fragment_timer_sleeps,
             R.layout.fragment_timer_days,
             R.layout.fragment_timer_weeks,
             R.layout.fragment_timer_months
@@ -34,8 +37,9 @@ public final class TimerFragment extends BaseFragment {
     @Nullable @Bind(R.id.countdown_days) ChristmasTextView mDaysView;
     @Nullable @Bind(R.id.countdown_weeks) ChristmasTextView mWeeksView;
     @Nullable @Bind(R.id.countdown_months) ChristmasTextView mMonthsView;
-    @Nullable @Bind(R.id.countdown_days_of_year) ChristmasTextView mDaysOfYearView;
+    @Nullable @Bind(R.id.countdown_seconds_of_year) ChristmasTextView mSecondsOfYearView;
     @Nullable @Bind(R.id.countdown_hours_of_year) ChristmasTextView mHoursOfYearView;
+    @Nullable @Bind(R.id.countdown_days_of_year) ChristmasTextView mDaysOfYearView;
     @Nullable @Bind(R.id.countdown_weeks_of_year) ChristmasTextView mWeeksOfYearView;
 
     private String mLogTag;
@@ -68,30 +72,19 @@ public final class TimerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateTimeContent(TimeUtils.modelFromNow());
-    }
-
-    public void updateTimeContent(@NonNull final TimeModel model) {
-        Timber.tag(mLogTag).v("updateTimeContent(model=%s)", model.toString());
-
-        if (isDetached()) {
-            Timber.tag(mLogTag).w("fragment is detached, skipping update");
-            return;
-        }
-
-        tryUpdateTextView(mSleepsView, model.getDaysOfYearLeft() + 1);
-        tryUpdateTextView(mSecondsView, model.getSecondsLeft());
-        tryUpdateTextView(mMinutesView, model.getMinutesLeft());
-        tryUpdateTextView(mHoursView, model.getHoursLeft());
-        tryUpdateTextView(mHoursOfYearView, model.getHoursOfYearLeft());
-        tryUpdateTextView(mDaysView, model.getDaysLeft());
-        tryUpdateTextView(mDaysOfYearView, model.getDaysOfYearLeft());
-        tryUpdateTextView(mWeeksView, model.getWeeksLeft());
-        tryUpdateTextView(mWeeksOfYearView, model.getWeeksOfYearLeft());
-        tryUpdateTextView(mMonthsView, model.getMonthsLeft());
+    @Subscribe
+    public void onTimeEvent(TimeEvent event) {
+        tryUpdateTextView(mSecondsView, event.period.getSeconds());
+        tryUpdateTextView(mMinutesView, event.period.getMinutes());
+        tryUpdateTextView(mHoursView, event.period.getHours());
+        tryUpdateTextView(mDaysView, event.period.getDays());
+        tryUpdateTextView(mWeeksView, event.period.getWeeks());
+        tryUpdateTextView(mMonthsView, event.period.getMonths());
+        tryUpdateTextView(mSleepsView, event.duration.getStandardDays() + 1);
+        tryUpdateTextView(mSecondsOfYearView, event.duration.getStandardSeconds());
+        tryUpdateTextView(mHoursOfYearView, event.duration.getStandardHours());
+        tryUpdateTextView(mDaysOfYearView, event.duration.getStandardDays());
+        tryUpdateTextView(mWeeksOfYearView, weeksBetween(event.now, event.christmas).getWeeks());
     }
 
     private void tryUpdateTextView(@Nullable TextView textView, final long value) {

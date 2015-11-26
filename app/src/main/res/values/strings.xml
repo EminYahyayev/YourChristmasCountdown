@@ -16,10 +16,11 @@
     <string name="countdown_days">Days</string>
     <string name="countdown_hours">Hours</string>
     <string name="countdown_minutes">Mins</string>
-    <string name="countdown_seconds">Secs</string>
     <string name="countdown_sleeps">Sleeps</string>
     <string name="countdown_weeks">Weeks</string>
     <string name="countdown_months">Months</string>
+    <string name="countdown_seconds">Secs</string>
+    <string name="countdown_seconds_full">Seconds</string>
 
     <!-- Personalise -->
     <string name="personalise_hint">Please enter your name</string>

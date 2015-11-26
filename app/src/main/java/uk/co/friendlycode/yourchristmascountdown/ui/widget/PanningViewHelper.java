@@ -151,7 +151,7 @@ public class PanningViewHelper implements ViewTreeObserver.OnGlobalLayoutListene
 
         // If we don't have an ImageView, call cleanup()
         if (null == imageView) {
-            cleanup();
+            //cleanup();
             throw new IllegalStateException("ImageView no longer exists. You should not use this PanningViewHelper any more.");
         }
 

@@ -1,63 +1,57 @@
 package uk.co.friendlycode.yourchristmascountdown.ui.activity;
 
 
-import android.content.SharedPreferences;
-import android.content.res.AssetFileDescriptor;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RawRes;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.view.ViewGroup;
 
-import org.joda.time.DateTime;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.squareup.otto.Produce;
+import com.squareup.otto.Subscribe;
 
-import java.io.IOException;
-
+import butterknife.Bind;
 import timber.log.Timber;
 import uk.co.friendlycode.yourchristmascountdown.R;
+import uk.co.friendlycode.yourchristmascountdown.ui.event.TimeEvent;
 import uk.co.friendlycode.yourchristmascountdown.ui.fragment.AboutFragment;
 import uk.co.friendlycode.yourchristmascountdown.ui.fragment.CountdownFragment;
 import uk.co.friendlycode.yourchristmascountdown.ui.fragment.HolidayFragment;
 import uk.co.friendlycode.yourchristmascountdown.ui.fragment.SettingsFragment;
-import uk.co.friendlycode.yourchristmascountdown.utils.PrefUtils;
-import uk.co.friendlycode.yourchristmascountdown.utils.TimeModel;
+import uk.co.friendlycode.yourchristmascountdown.ui.listener.NavigationListener;
+import uk.co.friendlycode.yourchristmascountdown.utils.BusProvider;
+import uk.co.friendlycode.yourchristmascountdown.utils.MusicManager;
 import uk.co.friendlycode.yourchristmascountdown.utils.TimeUtils;
 
 public final class MainActivity extends BaseActivity
-        implements CountdownFragment.Listener, SettingsFragment.Listener,
-        SharedPreferences.OnSharedPreferenceChangeListener, MediaPlayer.OnPreparedListener {
+        implements NavigationListener, SettingsFragment.Listener,
+        FragmentManager.OnBackStackChangedListener {
 
-    @TimeUtils.State int mFragmentState = TimeUtils.STATE_EMPTY;
-    @TimeUtils.State int mSfxState = TimeUtils.STATE_EMPTY;
-    @TimeUtils.State int mMusicState = TimeUtils.STATE_EMPTY;
+    @Bind(R.id.ad_container) ViewGroup mAdContainer;
 
-    private MediaPlayer mMusicPlayer;
-    private MediaPlayer mSfxPlayer;
-    private boolean mSfxPrepared = false;
+    private AdView mAdView;
+    private AdRequest mAdRequest;
 
+    @IdRes
+    private int mMainFragmentId = -1;
+    private boolean mCanUpdateFragment = true;
+
+    private MusicManager mMusicManager;
     private Handler mHandler;
-    private CountdownFragment mCountdownFragment;
 
-    private final Runnable mTimer = new Runnable() {
+    private final Runnable mTimerUpdate = new Runnable() {
         @Override public void run() {
-            final DateTime now = DateTime.now();
-            final TimeModel model = TimeUtils.getTimeModel(now);
-
-            @TimeUtils.State int state = TimeUtils.getState(now);
-            updateFragmentState(state);
-
-            if (mCountdownFragment != null)
-                mCountdownFragment.updateTimeContent(model);
-
-            if (mSfxPrepared && !mSfxPlayer.isPlaying()) {
-                mSfxPlayer.start();
-                mSfxPrepared = false;
-            }
-
-            mHandler.postDelayed(this, 1000);
+            final long before = System.currentTimeMillis();
+            BusProvider.getInstance().post(produceTimeEvent());
+            final long delay = System.currentTimeMillis() - before;
+            Timber.d("1000-delay = %d", 1000 - delay);
+            mHandler.postDelayed(this, 1000 - delay);
         }
     };
 
@@ -67,198 +61,127 @@ public final class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
 
         mHandler = new Handler();
+        mMusicManager = new MusicManager(this);
 
-        initMediaPlayers();
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
 
-        int state = TimeUtils.getState(DateTime.now());
-        updateFragmentState(state);
+        mAdView = new AdView(this);
+        mAdView.setAdUnitId(getString(R.string.banner_ad_unit_id));
+        mAdView.setAdSize(AdSize.LARGE_BANNER);
+        mAdContainer.addView(mAdView);
+
+        mAdRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(mAdRequest);
+
+        mAdView.setAdListener(new AdListener() {
+            @Override public void onAdLoaded() {
+                super.onAdLoaded();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .registerOnSharedPreferenceChangeListener(this);
+        BusProvider.getInstance().register(this);
 
-        final int state = TimeUtils.getState(DateTime.now());
-        updateMusicState(state, true);
-        updateSfxState(state, true);
-
-        mHandler.post(mTimer);
+        mMusicManager.resume();
+        mAdView.resume();
+        mHandler.post(mTimerUpdate);
     }
 
     @Override
     protected void onPause() {
-        PreferenceManager.getDefaultSharedPreferences(this)
-                .unregisterOnSharedPreferenceChangeListener(this);
-
-        resetPlayer(mMusicPlayer);
-        resetPlayer(mSfxPlayer);
-
-        mHandler.removeCallbacks(mTimer);
+        BusProvider.getInstance().unregister(this);
         super.onPause();
+
+        mMusicManager.pause();
+        mAdView.pause();
+        mHandler.removeCallbacks(mTimerUpdate);
     }
 
     @Override
     protected void onDestroy() {
-        releasePlayer(mMusicPlayer);
-        releasePlayer(mSfxPlayer);
+        mAdContainer.removeView(mAdView);
+        mAdRequest = null;
+        mAdView.removeAllViews();
+        mAdView.setAdListener(null);
+        mAdView.destroy();
+
+        mMusicManager.destroy();
         super.onDestroy();
     }
 
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sp, String key) {
-        final int state = TimeUtils.getState(DateTime.now());
-        if (PrefUtils.PREF_MUSIC_ENABLED.equals(key)) {
-            updateMusicState(state, false);
-        } else if (PrefUtils.PREF_SFX_ENABLED.equals(key)) {
-            updateSfxState(state, false);
-        }
+    public void onShareClick() {
+        replacePrimaryFragment(new HolidayFragment());
     }
 
     @Override
     public void onSettingsClick() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new SettingsFragment())
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
-    public void onShareClick() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new HolidayFragment())
-                .addToBackStack(null)
-                .commit();
+        replaceSecondaryFragment(new SettingsFragment());
     }
 
     @Override
     public void onAboutClick() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new AboutFragment())
-                .addToBackStack(null)
-                .commit();
+        replaceSecondaryFragment(new AboutFragment());
     }
 
     @Override
-    public void onPrepared(MediaPlayer mp) {
-        Timber.d("onPrepared");
-        if (mp == mMusicPlayer) {
-            Timber.d("Music player is prepared");
-            mp.start();
-        } else {
-            Timber.d("Sfx player is prepared");
-            mSfxPrepared = true;
-        }
+    public void onBackStackChanged() {
+        int size = getSupportFragmentManager().getBackStackEntryCount();
+        Timber.w("onBackStackChanged, entryCount=%d", size);
+        mCanUpdateFragment = size <= 1;
     }
 
-    private void updateFragmentState(@TimeUtils.State int state) {
-        if (mFragmentState == state) {
+    @Produce
+    public TimeEvent produceTimeEvent() {
+        final TimeEvent event = new TimeEvent(TimeUtils.getChristmasDate());
+        Timber.d("produceTimeEvent: secondsLeft=%d", event.duration.getStandardSeconds());
+        Timber.v("produceTimeEvent: date=%s", event.now);
+        return event;
+    }
+
+    @Subscribe
+    public void onTimeEvent(TimeEvent event) {
+        updateFragmentState(event.duration.getStandardSeconds());
+    }
+
+    private void updateFragmentState(long secondsLeft) {
+        if (!mCanUpdateFragment) {
+            Timber.d("Can't update fragment. Skipping the update.");
             return;
         }
 
-        if (state == TimeUtils.STATE_HOLIDAY) {
-            mCountdownFragment = null;
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, new HolidayFragment())
-                    .commit();
+        @IdRes int newFragmentId;
+        if (secondsLeft > 0) {
+            newFragmentId = R.id.fragment_countdown;
         } else {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, mCountdownFragment = new CountdownFragment())
-                    .commit();
+            newFragmentId = R.id.fragment_holiday;
         }
 
-        mFragmentState = state;
-    }
+        if (mMainFragmentId != newFragmentId) {
+            if (newFragmentId == R.id.fragment_countdown)
+                replacePrimaryFragment(new CountdownFragment());
+            else
+                replacePrimaryFragment(new HolidayFragment());
 
-    private void updateMusicState(@TimeUtils.State int state, boolean isResume) {
-        if (mMusicState == state && !isResume) {
-            return;
-        }
-
-        if (PrefUtils.isMusicEnabled(this)) {
-            if (state == TimeUtils.STATE_HOLIDAY) {
-                preparePlayer(mMusicPlayer, R.raw.merry_christmas_music);
-            } else {
-                preparePlayer(mMusicPlayer, R.raw.countdown_music);
-            }
-        } else {
-            resetPlayer(mMusicPlayer);
-        }
-
-        mMusicState = state;
-    }
-
-    private void updateSfxState(@TimeUtils.State int state, boolean isResume) {
-        if (mSfxState == state && !isResume) {
-            return;
-        }
-
-        if (PrefUtils.isSfxEnabled(this)) {
-            if (state != TimeUtils.STATE_HOLIDAY) {
-                preparePlayer(mSfxPlayer, R.raw.countdown_clock);
-            } else {
-                resetPlayer(mSfxPlayer);
-            }
-        } else {
-            resetPlayer(mSfxPlayer);
-        }
-
-        mSfxState = state;
-    }
-
-    private void preparePlayer(@NonNull MediaPlayer mediaPlayer, @RawRes int resId) {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-        }
-
-        final AssetFileDescriptor afd = getResources().openRawResourceFd(resId);
-        try {
-            mediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setVolume(100, 100);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.prepareAsync();
-        } catch (IOException e) {
-            Timber.e(e, e.getMessage());
+            mMainFragmentId = newFragmentId;
         }
     }
 
-    private void initMediaPlayers() {
-        mMusicPlayer = new MediaPlayer();
-        mMusicPlayer.setOnPreparedListener(this);
-
-        mSfxPlayer = new MediaPlayer();
-        mSfxPlayer.setOnPreparedListener(this);
+    private void replacePrimaryFragment(@NonNull Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_primary, fragment)
+                .commit();
     }
 
-    private void resetPlayer(@Nullable MediaPlayer mediaPlayer) {
-        if (mediaPlayer != null) {
-            if (mediaPlayer == mSfxPlayer) {
-                mSfxPrepared = false;
-            }
-
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.reset();
-        }
-    }
-
-    private void releasePlayer(@Nullable MediaPlayer mediaPlayer) {
-        if (mediaPlayer != null) {
-            if (mediaPlayer == mSfxPlayer) {
-                mSfxPrepared = false;
-            }
-
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.stop();
-            }
-            mediaPlayer.release();
-        }
+    private void replaceSecondaryFragment(@NonNull Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_secondary, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
     }
 }
