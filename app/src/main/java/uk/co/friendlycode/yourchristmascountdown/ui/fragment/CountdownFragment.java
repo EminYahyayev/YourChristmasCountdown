@@ -155,7 +155,8 @@ public final class CountdownFragment extends BaseFragment {
         mCurrentAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (Integer) animation.getAnimatedValue();
-                mScrollView.scrollTo(value, 0);
+                if (mScrollView != null)
+                    mScrollView.scrollTo(value, 0);
             }
         });
         mCurrentAnimator.setDuration(ANIMATION_DURATION);
