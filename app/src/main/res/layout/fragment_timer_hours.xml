@@ -10,16 +10,17 @@
         android:id="@+id/countdown_hours_of_year"
         style="@style/CountdownTimerView.Number"
         app:fontName="@string/font_name"
-        app:layout_rowSpan="1"
         app:layout_columnSpan="2"
+        app:layout_rowSpan="1"
         tools:text="@string/placeholder_countdown_hours_overall"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_hours_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_hours"
         app:fontName="@string/font_name"
-        app:layout_rowSpan="2"
-        app:layout_columnSpan="2"/>
+        app:layout_columnSpan="2"
+        app:layout_rowSpan="2"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
         android:id="@+id/countdown_minutes"
@@ -34,12 +35,14 @@
         tools:text="@string/placeholder_countdown_seconds"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_minutes_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_minutes"
         app:fontName="@string/font_name"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
         style="@style/CountdownTimerView.Caption"
+        android:id="@+id/countdown_seconds_label"
         android:text="@string/countdown_seconds"
         app:fontName="@string/font_name"/>
 

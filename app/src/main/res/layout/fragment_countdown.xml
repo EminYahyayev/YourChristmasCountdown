@@ -29,7 +29,8 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/primary_dark"/>
+                android:background="@color/primary_dark"
+                android:visibility="gone"/>
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -50,9 +51,9 @@
 
         <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
             android:id="@+id/countdown_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="-8dp"
+            android:layout_marginBottom="0dp"
             android:layout_marginLeft="@dimen/content_padding_normal"
             android:layout_marginRight="@dimen/content_padding_normal"
             android:layout_marginTop="@dimen/content_padding_normal"
@@ -62,16 +63,17 @@
             android:singleLine="true"
             android:text="@string/countdown_title"
             android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textColor="@color/countdown_title"
             app:fontName="@string/font_name"/>
 
         <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/content_padding_normal"
             android:layout_marginRight="@dimen/content_padding_normal"
             android:ellipsize="end"
+            android:gravity="center"
             android:singleLine="true"
             android:text="@string/countdown_subtitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"

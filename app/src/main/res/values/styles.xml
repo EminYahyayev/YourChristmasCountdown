@@ -24,7 +24,7 @@
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display3</item>
         <item name="android:textColor">@color/material_white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginBottom">-18sp</item>
+        <item name="android:layout_marginBottom">-16sp</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 

@@ -1,12 +1,17 @@
 package uk.co.friendlycode.yourchristmascountdown.ui.activity;
 
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.ads.AdListener;
@@ -15,6 +20,10 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 import butterknife.Bind;
 import timber.log.Timber;
@@ -113,7 +122,9 @@ public final class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onShareClick() {}
+    public void onShareClick() {
+
+    }
 
     @Override
     public void onSettingsClick() {
@@ -181,5 +192,42 @@ public final class MainActivity extends BaseActivity
                 .replace(R.id.fragment_secondary, fragment)
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
+    }
+
+    private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+
+            openScreenshot(imageFile);
+        } catch (Throwable e) {
+            // Several error may come out with file handling or OOM
+            e.printStackTrace();
+        }
+    }
+
+    private void openScreenshot(File imageFile) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        Uri uri = Uri.fromFile(imageFile);
+        intent.setDataAndType(uri, "image/*");
+        startActivity(intent);
     }
 }

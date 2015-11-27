@@ -20,11 +20,13 @@
         tools:text="@string/placeholder_countdown_days"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_months_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_months"
         app:fontName="@string/font_name"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_weeks_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_weeks"
         app:fontName="@string/font_name"/>
@@ -42,11 +44,13 @@
         tools:text="@string/placeholder_countdown_minutes"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_days_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_days"
         app:fontName="@string/font_name"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_hours_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_hours"
         app:fontName="@string/font_name"/>

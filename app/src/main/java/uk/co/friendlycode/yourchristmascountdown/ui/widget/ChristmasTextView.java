@@ -9,6 +9,7 @@ import android.widget.TextView;
 import uk.co.friendlycode.yourchristmascountdown.R;
 
 public final class ChristmasTextView extends TextView {
+
     public ChristmasTextView(Context context) {
         super(context);
         init(null);

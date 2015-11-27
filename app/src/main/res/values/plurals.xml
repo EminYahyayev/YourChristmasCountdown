@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="countdown_sleeps">
+        <item quantity="one">Sleep</item>
+        <item quantity="other">Sleeps</item>
+    </plurals>
+
+    <plurals name="countdown_seconds">
+        <item quantity="one">Sec</item>
+        <item quantity="other">Secs</item>
+    </plurals>
+
+    <plurals name="countdown_seconds_full">
+        <item quantity="one">Second</item>
+        <item quantity="other">Seconds</item>
+    </plurals>
+
+    <plurals name="countdown_minutes">
+        <item quantity="one">Min</item>
+        <item quantity="other">Mins</item>
+    </plurals>
+
+    <plurals name="countdown_hours">
+        <item quantity="one">Hour</item>
+        <item quantity="other">Hours</item>
+    </plurals>
+
+    <plurals name="countdown_days">
+        <item quantity="one">Day</item>
+        <item quantity="other">Days</item>
+    </plurals>
+
+    <plurals name="countdown_weeks">
+        <item quantity="one">Week</item>
+        <item quantity="other">Weeks</item>
+    </plurals>
+
+    <plurals name="countdown_months">
+        <item quantity="one">Month</item>
+        <item quantity="other">Months</item>
+    </plurals>
+
+</resources>

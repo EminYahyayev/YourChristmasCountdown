@@ -15,6 +15,7 @@
         tools:text="@string/placeholder_countdown_sleeps"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+        android:id="@+id/countdown_sleeps_label"
         style="@style/CountdownTimerView.Caption"
         android:text="@string/countdown_sleeps"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"

@@ -14,13 +14,21 @@
     <string name="countdown_title">Your</string>
     <string name="countdown_subtitle">Christmas Countdown</string>
     <string name="countdown_days">Days</string>
+    <string name="countdown_day">Day</string>
     <string name="countdown_hours">Hours</string>
+    <string name="countdown_hour">Hour</string>
     <string name="countdown_minutes">Mins</string>
+    <string name="countdown_minute">Min</string>
     <string name="countdown_sleeps">Sleeps</string>
+    <string name="countdown_sleep">Sleep</string>
     <string name="countdown_weeks">Weeks</string>
+    <string name="countdown_week">Week</string>
     <string name="countdown_months">Months</string>
+    <string name="countdown_month">Month</string>
     <string name="countdown_seconds">Secs</string>
+    <string name="countdown_second">Sec</string>
     <string name="countdown_seconds_full">Seconds</string>
+    <string name="countdown_second_full">Second</string>
 
     <!-- Personalise -->
     <string name="personalise_hint">Please enter your name</string>

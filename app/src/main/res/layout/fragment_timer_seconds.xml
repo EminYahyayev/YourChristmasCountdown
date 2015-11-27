@@ -10,17 +10,20 @@
         android:id="@+id/countdown_seconds_of_year"
         style="@style/CountdownTimerView.Number"
         android:ellipsize="start"
+        android:gravity="center"
         android:singleLine="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-        app:fontName="@string/font_name"
         app:layout_columnSpan="2"
-        tools:text="@string/placeholder_countdown_sleeps"/>
+        app:layout_rowWeight="2"
+        tools:text="5666"/>
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
         style="@style/CountdownTimerView.Caption"
+        android:id="@+id/countdown_seconds_label"
         android:text="@string/countdown_seconds_full"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         app:fontName="@string/font_name"
-        app:layout_columnSpan="2"/>
+        app:layout_columnSpan="2"
+        app:layout_rowWeight="1"/>
 
 </android.support.v7.widget.GridLayout>
