@@ -19,7 +19,7 @@
 
     <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
         style="@style/CountdownTimerView.Caption"
-        android:id="@+id/countdown_seconds_label"
+        android:id="@+id/countdown_seconds_of_year_label"
         android:text="@string/countdown_seconds_full"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         app:fontName="@string/font_name"

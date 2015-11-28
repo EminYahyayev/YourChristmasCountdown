@@ -76,7 +76,7 @@ public final class MainActivity extends BaseActivity
 
         mAdView = new AdView(this);
         mAdView.setAdUnitId(getString(R.string.banner_ad_unit_id));
-        mAdView.setAdSize(AdSize.LARGE_BANNER);
+        mAdView.setAdSize(AdSize.SMART_BANNER);
         mAdContainer.addView(mAdView);
 
         mAdRequest = new AdRequest.Builder().build();

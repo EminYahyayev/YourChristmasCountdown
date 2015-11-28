@@ -3,6 +3,7 @@ package uk.co.friendlycode.yourchristmascountdown.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.PluralsRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import org.joda.time.Duration;
 import org.joda.time.Period;
 
 import butterknife.Bind;
+import timber.log.Timber;
 import uk.co.friendlycode.yourchristmascountdown.R;
 import uk.co.friendlycode.yourchristmascountdown.ui.event.TimeEvent;
 
@@ -31,6 +33,15 @@ public final class TimerFragment extends BaseFragment {
             R.layout.fragment_timer_weeks,
             R.layout.fragment_timer_months
     };
+
+    @Nullable @Bind(R.id.countdown_sleeps_label) TextView mSleepsLabel;
+    @Nullable @Bind(R.id.countdown_seconds_label) TextView mSecondsLabel;
+    @Nullable @Bind(R.id.countdown_seconds_of_year_label) TextView mSecondsOfYearLabel;
+    @Nullable @Bind(R.id.countdown_minutes_label) TextView mMinutesLabel;
+    @Nullable @Bind(R.id.countdown_weeks_label) TextView mWeeksLabel;
+    @Nullable @Bind(R.id.countdown_days_label) TextView mDaysLabel;
+    @Nullable @Bind(R.id.countdown_hours_label) TextView mHoursLabel;
+    @Nullable @Bind(R.id.countdown_months_label) TextView mMonthsLabel;
 
     @Nullable @Bind(R.id.countdown_sleeps) TextView mSleepsView;
     @Nullable @Bind(R.id.countdown_seconds) TextView mSecondsView;
@@ -74,26 +85,39 @@ public final class TimerFragment extends BaseFragment {
         final Period period = event.period;
         final Duration duration = event.duration;
 
-        tryUpdateTextView(mSecondsView, period.getSeconds());
-        tryUpdateTextView(mMinutesView, period.getMinutes());
-        tryUpdateTextView(mHoursView, period.getHours());
-        tryUpdateTextView(mDaysView, period.getDays());
-        tryUpdateTextView(mWeeksView, event.period.getWeeks());
-        tryUpdateTextView(mMonthsView, event.period.getMonths());
-        tryUpdateTextView(mSleepsView, event.duration.getStandardDays() + 1);
-        tryUpdateTextView(mSecondsOfYearView, event.duration.getStandardSeconds());
-        tryUpdateTextView(mHoursOfYearView, event.duration.getStandardHours());
-        tryUpdateTextView(mDaysOfYearView, event.duration.getStandardDays());
-        tryUpdateTextView(mWeeksOfYearView, weeksBetween(event.now, event.christmas).getWeeks());
+        updateTextView(mSecondsView, mSecondsLabel, R.plurals.countdown_seconds, period.getSeconds());
+        updateTextView(mMinutesView, mMinutesLabel, R.plurals.countdown_minutes, period.getMinutes());
+        updateTextView(mHoursView, mHoursLabel, R.plurals.countdown_hours, period.getHours());
+        updateTextView(mDaysView, mDaysLabel, R.plurals.countdown_days, period.getDays());
+        updateTextView(mWeeksView, mWeeksLabel, R.plurals.countdown_weeks, period.getWeeks());
+        updateTextView(mMonthsView, mMonthsLabel, R.plurals.countdown_months, period.getMonths());
+        updateTextView(mSleepsView, mSleepsLabel, R.plurals.countdown_sleeps, duration.getStandardDays() + 1);
+
+        updateTextView(mSecondsOfYearView, mSecondsOfYearLabel,
+                R.plurals.countdown_seconds_full, duration.getStandardSeconds());
+        updateTextView(mHoursOfYearView, mHoursLabel,
+                R.plurals.countdown_hours, duration.getStandardHours());
+        updateTextView(mDaysOfYearView, mDaysLabel,
+                R.plurals.countdown_days, duration.getStandardDays());
+        updateTextView(mWeeksOfYearView, mWeeksLabel,
+                R.plurals.countdown_weeks, weeksBetween(event.now, event.christmas).getWeeks());
     }
 
-    private void tryUpdateTextView(@Nullable TextView textView, long value) {
+    private void updateTextView(@Nullable TextView textView, @Nullable TextView textLabel,
+                                @PluralsRes int pluralsRes, long value) {
         if (textView != null) {
             String oldValue = textView.getText().toString();
             String newValue = String.valueOf(value);
 
             if (oldValue.equals(newValue))
                 return;
+
+            if (textLabel != null) {
+                final int quantity = value == 1 ? 1 : 10;
+                textLabel.setText(getResources().getQuantityText(pluralsRes, quantity));
+            } else {
+                Timber.w("Label is missing.");
+            }
 
             textView.setText(newValue);
             animateTextView(textView);

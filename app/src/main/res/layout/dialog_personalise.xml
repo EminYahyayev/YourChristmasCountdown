@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/content_padding_large"
         android:layout_marginRight="@dimen/content_padding_large"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:hint="@string/personalise_hint"
+        android:inputType="textPersonName"
         android:maxLength="20"/>
 
     <LinearLayout
