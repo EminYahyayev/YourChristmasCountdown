@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="countdown_bottom_bar_height">120dp</dimen>
+
+</resources>

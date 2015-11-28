@@ -43,6 +43,7 @@ public final class MainActivity extends BaseActivity
         FragmentManager.OnBackStackChangedListener {
 
     @Bind(R.id.ad_container) ViewGroup mAdContainer;
+    @Bind(R.id.fragment_primary) ViewGroup mPrimaryView;
 
     private AdView mAdView;
     private AdRequest mAdRequest;
@@ -123,7 +124,7 @@ public final class MainActivity extends BaseActivity
 
     @Override
     public void onShareClick() {
-
+        takeScreenshot(mPrimaryView);
     }
 
     @Override
@@ -194,7 +195,7 @@ public final class MainActivity extends BaseActivity
                 .commit();
     }
 
-    private void takeScreenshot() {
+    private void takeScreenshot(@NonNull View target) {
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
 
@@ -203,10 +204,10 @@ public final class MainActivity extends BaseActivity
             String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
 
             // create bitmap screen capture
-            View v1 = getWindow().getDecorView().getRootView();
-            v1.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
-            v1.setDrawingCacheEnabled(false);
+            //View v1 = getWindow().getDecorView().getRootView();
+            target.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(target.getDrawingCache());
+            target.setDrawingCacheEnabled(false);
 
             File imageFile = new File(mPath);
 

@@ -1,5 +1,7 @@
 package uk.co.friendlycode.yourchristmascountdown.ui.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,6 +13,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
@@ -61,17 +64,17 @@ public final class CountdownFragment extends BaseFragment {
 
         mLinearInterpolator = new LinearInterpolator();
 
-//        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override public void onGlobalLayout() {
-//                mScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                //noinspection ConstantConditions
-//                mBackgroundScrollWidth = mScrollView.getChildAt(0)
-//                        .getMeasuredWidth() / 2;
-//                //Timber.e("ScrollWidth", Integer.toString(mBackgroundScrollWidth));
-//                startBackgroundAnimation();
-//            }
-//        });
+        ViewTreeObserver vto = mScrollView.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override public void onGlobalLayout() {
+                mScrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                //noinspection ConstantConditions
+                mBackgroundScrollWidth = mScrollView.getChildAt(0)
+                        .getMeasuredWidth() / 2;
+                //Timber.e("ScrollWidth", Integer.toString(mBackgroundScrollWidth));
+                startBackgroundAnimation();
+            }
+        });
 
         if (savedState == null)
             mViewPager.setCurrentItem(1, false);
@@ -82,12 +85,12 @@ public final class CountdownFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        //startBackgroundAnimation();
+        startBackgroundAnimation();
     }
 
     @Override
     public void onPause() {
-        //stopBackgroundAnimation();
+        stopBackgroundAnimation();
         super.onPause();
     }
 
@@ -156,6 +159,18 @@ public final class CountdownFragment extends BaseFragment {
                 int value = (Integer) animation.getAnimatedValue();
                 if (mScrollView != null)
                     mScrollView.scrollTo(value, 0);
+            }
+        });
+        mCurrentAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationStart(Animator animation) {
+                if (mScrollView != null)
+                    mScrollView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            }
+
+            @Override public void onAnimationCancel(Animator animation) {
+                Timber.w("onAnimationCancel");
+                if (mScrollView != null)
+                    mScrollView.setLayerType(View.LAYER_TYPE_NONE, null);
             }
         });
         mCurrentAnimator.setDuration(ANIMATION_DURATION);
