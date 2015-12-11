@@ -51,6 +51,6 @@ public final class HolidayFragment extends BaseFragment {
     }
 
     @OnClick(R.id.button_share) void onShareClick() {
-        mListener.onShareClick();
+        mListener.onShareClick(null);
     }
 }

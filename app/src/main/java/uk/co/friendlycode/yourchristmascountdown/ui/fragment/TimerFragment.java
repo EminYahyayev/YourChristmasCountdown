@@ -34,6 +34,16 @@ public final class TimerFragment extends BaseFragment {
             R.layout.fragment_timer_months
     };
 
+    // string resources for sharing
+    public static final int[] MESSAGE_STRINGS = {
+            R.string.share_countdown_seconds,
+            R.string.share_countdown_hours,
+            R.string.share_countdown_sleeps,
+            R.string.share_countdown_days,
+            R.string.share_countdown_weeks,
+            R.string.share_countdown_months
+    };
+
     @Nullable @Bind(R.id.countdown_sleeps_label) TextView mSleepsLabel;
     @Nullable @Bind(R.id.countdown_seconds_label) TextView mSecondsLabel;
     @Nullable @Bind(R.id.countdown_seconds_of_year_label) TextView mSecondsOfYearLabel;
@@ -59,10 +69,6 @@ public final class TimerFragment extends BaseFragment {
 
     public TimerFragment() {}
 
-    public static int layoutsCount() {
-        return LAYOUTS.length;
-    }
-
     public static TimerFragment newInstance(final int position) {
         Bundle args = new Bundle();
         args.putInt(ARG_POSITION, position);
@@ -70,6 +76,10 @@ public final class TimerFragment extends BaseFragment {
         TimerFragment fragment = new TimerFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static int getLayoutsCount() {
+        return LAYOUTS.length;
     }
 
     @Override

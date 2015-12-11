@@ -11,7 +11,7 @@
     <string name="button_ok">OK</string>
 
     <!-- Countdown screens-->
-    <string name="countdown_title">Your</string>
+    <string name="countdown_title">YOUR</string>
     <string name="countdown_subtitle">Christmas Countdown</string>
     <string name="countdown_days">Days</string>
     <string name="countdown_day">Day</string>
@@ -55,7 +55,22 @@
     <string name="about_visit_website">Visit our website</string>
     <string name="about_twitter">Follow us on Twitter</string>
     <string name="about_facebook">Like us on Facebook</string>
-    <string name="about_play_market">Rate this at the Play Store</string>
+    <string name="about_play_market">Rate this app at the Play Store</string>
     <string name="holiday_title">Merry Christmas Everyone</string>
+
+    <!-- Screenshot Sharing -->
+    <string name="share_title">Share Screenshot</string>
+    <string name="share_error">Couldn\'t take a screenshot</string>
+    <string name="share_template">%1$s \nCheck our app here: %2$s</string>
+    <string name="share_countdown_default">@string/url_play_market</string>
+    <string name="share_countdown_time">Only %1$d %2$s until Christmas!</string>
+    <string name="share_countdown_seconds">Only %1$d %2$s until Christmas!</string>
+    <string name="share_countdown_hours">Only %1$d %2$s until Christmas!</string>
+    <string name="share_countdown_sleeps">Only %1$d %2$s until Christmas!</string>
+    <string name="share_countdown_days">Only %1$d %2$s until Christmas!</string>
+    <string name="share_countdown_weeks">Only %1$d %2$s until Christmas!</string>
+    <string name="share_countdown_months">Only %1$d %2$s until Christmas!</string>
+    <string name="message_storage_permission">You need to allow access to External Storage in order to take a screenshots</string>
+    <string name="message_denied_external_storage">Permission for sharing is denied.</string>
 
 </resources>

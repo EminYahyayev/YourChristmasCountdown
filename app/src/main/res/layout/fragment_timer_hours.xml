@@ -1,49 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.GridLayout
-    style="@style/CountdownFragment"
+<FrameLayout
+    style="@style/TimerFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:background="@color/material_blue800">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-        android:id="@+id/countdown_hours_of_year"
-        style="@style/CountdownTimerView.Number"
-        app:fontName="@string/font_name"
-        app:layout_columnSpan="2"
-        app:layout_rowSpan="1"
-        tools:text="@string/placeholder_countdown_hours_overall"/>
+    <android.support.v7.widget.GridLayout
+        style="@style/TimerGrid"
+        tools:background="@color/material_blue800">
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-        android:id="@+id/countdown_hours_label"
-        style="@style/CountdownTimerView.Caption"
-        android:text="@string/countdown_hours"
-        app:fontName="@string/font_name"
-        app:layout_columnSpan="2"
-        app:layout_rowSpan="2"/>
+        <TextView
+            android:id="@+id/countdown_hours_of_year"
+            style="@style/CountdownTimerView.Number"
+            app:layout_columnSpan="2"
+            app:layout_rowSpan="1"
+            tools:text="@string/placeholder_countdown_hours_overall"/>
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-        android:id="@+id/countdown_minutes"
-        style="@style/CountdownTimerView.Number"
-        app:fontName="@string/font_name"
-        tools:text="@string/placeholder_countdown_minutes"/>
+        <TextView
+            android:id="@+id/countdown_hours_label"
+            style="@style/CountdownTimerView.Caption"
+            android:text="@string/countdown_hours"
+            app:layout_columnSpan="2"
+            app:layout_rowSpan="2"/>
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-        android:id="@+id/countdown_seconds"
-        style="@style/CountdownTimerView.Number"
-        app:fontName="@string/font_name"
-        tools:text="@string/placeholder_countdown_seconds"/>
+        <TextView
+            android:id="@+id/countdown_minutes"
+            style="@style/CountdownTimerView.Number"
+            tools:text="@string/placeholder_countdown_minutes"/>
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-        android:id="@+id/countdown_minutes_label"
-        style="@style/CountdownTimerView.Caption"
-        android:text="@string/countdown_minutes"
-        app:fontName="@string/font_name"/>
+        <TextView
+            android:id="@+id/countdown_seconds"
+            style="@style/CountdownTimerView.Number"
+            tools:text="@string/placeholder_countdown_seconds"/>
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-        style="@style/CountdownTimerView.Caption"
-        android:id="@+id/countdown_seconds_label"
-        android:text="@string/countdown_seconds"
-        app:fontName="@string/font_name"/>
+        <TextView
+            android:id="@+id/countdown_minutes_label"
+            style="@style/CountdownTimerView.Caption"
+            android:text="@string/countdown_minutes"/>
 
-</android.support.v7.widget.GridLayout>
+        <TextView
+            android:id="@+id/countdown_seconds_label"
+            style="@style/CountdownTimerView.Caption"
+            android:text="@string/countdown_seconds"/>
+
+    </android.support.v7.widget.GridLayout>
+
+</FrameLayout>

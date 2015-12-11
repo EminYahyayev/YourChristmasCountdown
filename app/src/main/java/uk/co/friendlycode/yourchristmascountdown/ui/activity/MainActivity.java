@@ -1,18 +1,29 @@
 package uk.co.friendlycode.yourchristmascountdown.ui.activity;
 
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -21,8 +32,7 @@ import com.google.android.gms.ads.AdView;
 import com.squareup.otto.Produce;
 import com.squareup.otto.Subscribe;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Date;
 
 import butterknife.Bind;
@@ -42,6 +52,8 @@ public final class MainActivity extends BaseActivity
         implements NavigationListener, SettingsFragment.Listener,
         FragmentManager.OnBackStackChangedListener {
 
+    private static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
+
     @Bind(R.id.ad_container) ViewGroup mAdContainer;
     @Bind(R.id.fragment_primary) ViewGroup mPrimaryView;
 
@@ -54,6 +66,9 @@ public final class MainActivity extends BaseActivity
 
     private MusicManager mMusicManager;
     private Handler mHandler;
+
+    @Nullable
+    private String mShareMessage;
 
     private final Runnable mTimerUpdate = new Runnable() {
         @Override public void run() {
@@ -75,9 +90,12 @@ public final class MainActivity extends BaseActivity
 
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
+        AdSize adSize = getResources().getDisplayMetrics().density >= 2
+                ? AdSize.LARGE_BANNER : AdSize.BANNER;
+
         mAdView = new AdView(this);
         mAdView.setAdUnitId(getString(R.string.banner_ad_unit_id));
-        mAdView.setAdSize(AdSize.SMART_BANNER);
+        mAdView.setAdSize(adSize);
         mAdContainer.addView(mAdView);
 
         mAdRequest = new AdRequest.Builder().build();
@@ -123,8 +141,27 @@ public final class MainActivity extends BaseActivity
     }
 
     @Override
-    public void onShareClick() {
-        takeScreenshot(mPrimaryView);
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    if (mShareMessage != null)
+                        shareScreenshot(mShareMessage);
+                } else {
+                    // Permission Denied
+                    Toast.makeText(MainActivity.this,
+                            R.string.message_denied_external_storage, Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onShareClick(String message) {
+        shareScreenshotWrapper(message);
     }
 
     @Override
@@ -195,40 +232,64 @@ public final class MainActivity extends BaseActivity
                 .commit();
     }
 
-    private void takeScreenshot(@NonNull View target) {
-        Date now = new Date();
-        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+    private void shareScreenshotWrapper(@NonNull String message) {
+        mShareMessage = message;
 
-        try {
-            // image naming and path  to include sd card  appending name you choose for file
-            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
-
-            // create bitmap screen capture
-            //View v1 = getWindow().getDecorView().getRootView();
-            target.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(target.getDrawingCache());
-            target.setDrawingCacheEnabled(false);
-
-            File imageFile = new File(mPath);
-
-            FileOutputStream outputStream = new FileOutputStream(imageFile);
-            int quality = 100;
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-            outputStream.flush();
-            outputStream.close();
-
-            openScreenshot(imageFile);
-        } catch (Throwable e) {
-            // Several error may come out with file handling or OOM
-            e.printStackTrace();
+        int hasWriteStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CONTACTS)) {
+                new AlertDialog.Builder(this)
+                        .setMessage(getString(R.string.message_storage_permission))
+                        .setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+                            @Override public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                        REQUEST_CODE_ASK_PERMISSIONS);
+                            }
+                        })
+                        .setNegativeButton(R.string.button_cancel, null)
+                        .show();
+                return;
+            }
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+            return;
         }
+        shareScreenshot(message);
     }
 
-    private void openScreenshot(File imageFile) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(imageFile);
-        intent.setDataAndType(uri, "image/*");
-        startActivity(intent);
+    private void shareScreenshot(@NonNull String message) {
+        final ContentResolver resolver = getContentResolver();
+        final Date now = new Date();
+        final View view = mPrimaryView;
+        DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // create bitmap screen capture
+            view.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+            view.setDrawingCacheEnabled(false);
+
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.TITLE, message);
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+            OutputStream outStream = resolver.openOutputStream(uri);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.close();
+
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/jpeg");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.putExtra(Intent.EXTRA_TEXT, message);
+            startActivity(Intent.createChooser(share, getString(R.string.share_title)));
+        } catch (Throwable e) {
+            Toast.makeText(this, R.string.share_error, Toast.LENGTH_SHORT).show();
+            Timber.e(e, e.getMessage());
+        }
+
+        mShareMessage = null;
     }
 }

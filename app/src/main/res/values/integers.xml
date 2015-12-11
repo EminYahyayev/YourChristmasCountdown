@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <integer name="background_animation_duration_ms">12000</integer>
+    <integer name="background_animation_duration_ms">18000</integer>
 
 </resources>

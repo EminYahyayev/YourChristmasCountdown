@@ -2,12 +2,12 @@
 <FrameLayout
     android:id="@+id/fragment_countdown"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <HorizontalScrollView
-        android:id="@+id/scroll_view"
+        android:id="@+id/background_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="false"
@@ -26,12 +26,6 @@
                 android:contentDescription="@null"
                 android:src="@drawable/background"/>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/primary_dark"
-                android:visibility="gone"/>
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -49,36 +43,43 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-            android:id="@+id/countdown_title"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="@dimen/content_padding_normal"
-            android:layout_marginRight="@dimen/content_padding_normal"
-            android:layout_marginTop="@dimen/content_padding_normal"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:singleLine="true"
-            android:text="@string/countdown_title"
-            android:textAllCaps="true"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="@color/countdown_title"
-            app:fontName="@string/font_name"/>
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/element_spacing_normal"
+            android:paddingLeft="@dimen/content_padding_normal"
+            android:paddingRight="@dimen/content_padding_normal"
+            android:paddingTop="@dimen/content_padding_normal">
 
-        <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/content_padding_normal"
-            android:layout_marginRight="@dimen/content_padding_normal"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:singleLine="true"
-            android:text="@string/countdown_subtitle"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/material_white"
-            app:fontName="@string/font_name"/>
+            <FrameLayout
+                android:id="@+id/countdown_title_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <uk.co.friendlycode.yourchristmascountdown.ui.widget.AutoResizeTextView
+                android:id="@+id/countdown_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="none"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/countdown_title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+                android:textColor="@color/countdown_title"
+                android:visibility="visible"
+                tools:visibility="visible"/>
+
+            <uk.co.friendlycode.yourchristmascountdown.ui.widget.AutoResizeTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="@string/countdown_subtitle"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textColor="@color/material_white"/>
+
+        </LinearLayout>
 
         <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasViewPager
             android:id="@+id/view_pager"

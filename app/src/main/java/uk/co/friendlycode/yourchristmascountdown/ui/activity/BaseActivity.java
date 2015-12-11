@@ -1,6 +1,7 @@
 package uk.co.friendlycode.yourchristmascountdown.ui.activity;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +9,21 @@ import android.support.v7.app.AppCompatActivity;
 import com.squareup.leakcanary.RefWatcher;
 
 import butterknife.ButterKnife;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import uk.co.friendlycode.yourchristmascountdown.ChristmasApplication;
 
 /**
- * Base class for all activities.
- * Binds views and watches memory leaks
+ * Base class for all activities. Binds views and watches memory leaks
  *
  * @see ButterKnife
  * @see RefWatcher
  */
-abstract class BaseActivity  extends AppCompatActivity {
+abstract class BaseActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -11,6 +11,7 @@ import com.squareup.leakcanary.RefWatcher;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import timber.log.Timber;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 
 public final class ChristmasApplication extends Application {
@@ -25,6 +26,12 @@ public final class ChristmasApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath(getString(R.string.font_name))
+                .setFontAttrId(R.attr.fontPath)
+                .build());
+
         JodaTimeAndroid.init(this);
         configureTimber();
 

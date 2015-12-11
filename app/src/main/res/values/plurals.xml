@@ -2,43 +2,49 @@
 <resources>
 
     <plurals name="countdown_sleeps">
-        <item quantity="one">Sleep</item>
-        <item quantity="other">Sleeps</item>
+        <item quantity="one">sleep</item>
+        <item quantity="other">sleeps</item>
     </plurals>
 
     <plurals name="countdown_seconds">
-        <item quantity="one">Sec</item>
-        <item quantity="other">Secs</item>
+        <item quantity="one">sec</item>
+        <item quantity="other">secs</item>
     </plurals>
 
     <plurals name="countdown_seconds_full">
-        <item quantity="one">Second</item>
-        <item quantity="other">Seconds</item>
+        <item quantity="one">second</item>
+        <item quantity="other">seconds</item>
     </plurals>
 
     <plurals name="countdown_minutes">
-        <item quantity="one">Min</item>
-        <item quantity="other">Mins</item>
+        <item quantity="one">min</item>
+        <item quantity="other">mins</item>
+    </plurals>
+
+    <plurals name="countdown_minutes_full">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
     </plurals>
 
     <plurals name="countdown_hours">
-        <item quantity="one">Hour</item>
-        <item quantity="other">Hours</item>
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
     </plurals>
 
     <plurals name="countdown_days">
-        <item quantity="one">Day</item>
-        <item quantity="other">Days</item>
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
     </plurals>
 
     <plurals name="countdown_weeks">
-        <item quantity="one">Week</item>
-        <item quantity="other">Weeks</item>
+        <item quantity="one">week</item>
+        <item quantity="other">weeks</item>
     </plurals>
 
     <plurals name="countdown_months">
-        <item quantity="one">Month</item>
-        <item quantity="other">Months</item>
+        <item quantity="one">month</item>
+        <item quantity="other">months</item>
     </plurals>
+
 
 </resources>

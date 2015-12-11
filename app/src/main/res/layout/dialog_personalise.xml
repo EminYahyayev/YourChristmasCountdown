@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/content_padding_normal">
 
     <EditText
         android:id="@+id/personalise_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/content_padding_large"
-        android:layout_marginRight="@dimen/content_padding_large"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:focusableInTouchMode="true"
         android:hint="@string/personalise_hint"
         android:inputType="textPersonName"
         android:maxLength="20"/>
@@ -21,8 +21,7 @@
         android:layout_marginLeft="@dimen/keyline_1_minus_8dp"
         android:layout_marginRight="@dimen/keyline_1_minus_8dp"
         android:gravity="end"
-        android:orientation="horizontal"
-        android:padding="@dimen/element_spacing_small">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/button_cancel"

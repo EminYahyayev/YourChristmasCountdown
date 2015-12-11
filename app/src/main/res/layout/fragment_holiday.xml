@@ -2,7 +2,6 @@
 <FrameLayout
     android:id="@+id/fragment_holiday"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +12,7 @@
         android:contentDescription="@null"
         android:scaleType="centerCrop"/>
 
-    <uk.co.friendlycode.yourchristmascountdown.ui.widget.ChristmasTextView
+    <TextView
         android:id="@+id/holiday_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,8 +26,7 @@
         android:textAllCaps="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
         android:textColor="@color/holiday_title"
-        android:textStyle="bold"
-        app:fontName="@string/font_name"/>
+        android:textStyle="bold"/>
 
     <include layout="@layout/partial_side_buttons"/>
 

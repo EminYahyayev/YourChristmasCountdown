@@ -13,7 +13,7 @@
             android:id="@+id/countdown_seconds_of_year"
             style="@style/CountdownTimerView.Number"
             android:ellipsize="start"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             app:layout_columnSpan="2"
             app:layout_columnWeight="1"
             tools:text="5666"/>
@@ -22,7 +22,7 @@
             android:id="@+id/countdown_seconds_of_year_label"
             style="@style/CountdownTimerView.Caption"
             android:text="@string/countdown_seconds_full"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display3"
             app:layout_columnSpan="2"
             app:layout_columnWeight="1"/>
 

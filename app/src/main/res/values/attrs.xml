@@ -1,6 +1,6 @@
 <resources>
 
-    <declare-styleable name="ChristmasTextView">
+    <declare-styleable name="StyledTextView">
         <attr name="fontName" format="string" />
     </declare-styleable>
 

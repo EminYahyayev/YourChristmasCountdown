@@ -49,14 +49,14 @@ public final class MusicManager implements MediaPlayer.OnPreparedListener,
         PreferenceManager.getDefaultSharedPreferences(mActivity)
                 .registerOnSharedPreferenceChangeListener(this);
 
-        mSfxEnabled = PrefUtils.isSfxEnabled(mActivity);
         mMusicEnabled = PrefUtils.isMusicEnabled(mActivity);
-
-        if (mSfxEnabled && mSfxPrepared)
-            mSfxPlayer.start();
+        mSfxEnabled = PrefUtils.isSfxEnabled(mActivity);
 
         if (mMusicEnabled && mMusicPrepared)
             mMusicPlayer.start();
+
+        if (mSfxEnabled && mSfxPrepared)
+            mSfxPlayer.start();
 
         BusProvider.getInstance().register(this);
 
@@ -71,8 +71,8 @@ public final class MusicManager implements MediaPlayer.OnPreparedListener,
         if (mMusicPlayer.isPlaying())
             mMusicPlayer.pause();
 
-        if (mMusicPlayer.isPlaying())
-            mMusicPlayer.pause();
+        if (mSfxPlayer.isPlaying())
+            mSfxPlayer.pause();
     }
 
     public void destroy() {

@@ -1,0 +1,16 @@
+<resources>
+
+    <style name="CountdownTimerView.Number">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
+        <item name="android:textColor">@color/material_white</item>
+        <item name="android:layout_marginBottom">-16sp</item>
+    </style>
+
+    <style name="CountdownTimerView.Caption">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display2</item>
+        <item name="android:textColor">@color/countdown_timer_caption</item>
+    </style>
+
+
+</resources>
